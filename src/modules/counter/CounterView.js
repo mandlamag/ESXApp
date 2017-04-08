@@ -59,7 +59,7 @@ class CounterView extends Component {
       <View style={styles.userContainer}>
         <Image
           style={styles.userProfilePhoto}
-          source={{
+          source={{ 
             uri: this.props.userProfilePhoto,
             width: 80,
             height: 80
@@ -77,6 +77,7 @@ class CounterView extends Component {
       ? {backgroundColor: '#eee'}
       : null;
 
+    console.log(`UserName: ${this.props.userName}`)
     return (
       <View style={styles.container}>
 
