@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import StocksView from '../stocks/StocksView';
 
 class CounterView extends Component {
   static displayName = 'CounterView';
@@ -83,7 +84,7 @@ class CounterView extends Component {
 
         <TouchableOpacity
           accessible={true}
-          accessibilityLabel={'Increment counter'}
+          accessibilityLabel={'Fund Account'}
           onPress={this.increment}
           style={[styles.counterButton, loadingStyle]}>
           <Text style={styles.counter}>
@@ -93,7 +94,7 @@ class CounterView extends Component {
 
         <TouchableOpacity
             accessible={true}
-            accessibilityLabel={'Reset counter'}
+            accessibilityLabel={'Reset Account'}
             onPress={this.reset}>
           <Text style={styles.linkButton}>
             Reset
@@ -102,24 +103,23 @@ class CounterView extends Component {
 
         <TouchableOpacity
             accessible={true}
-            accessibilityLabel={'Randomize counter'}
+            accessibilityLabel={'Fund Randomly'}
             onPress={this.random}>
           <Text style={styles.linkButton}>
             Random
           </Text>
         </TouchableOpacity>
-
-        <TouchableOpacity onPress={this.bored} accessible={true}>
-          <Text style={styles.linkButton}>
-            {'I\'m bored!'}
-          </Text>
-        </TouchableOpacity>
-
       </View>
     );
   }
 }
 
+const button = {
+  borderWidth: 0,
+  borderRadius: 20,
+  width: 40,
+  height: 40
+};
 const circle = {
   borderWidth: 0,
   borderRadius: 40,
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center'
   },
   counterButton: {
-    ...circle,
+    ...button,
     backgroundColor: '#349d4a',
     alignItems: 'center',
     justifyContent: 'center',
