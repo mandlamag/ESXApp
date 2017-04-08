@@ -41,7 +41,7 @@
     "react": "~15.4.2",
     "react-dom": "~15.4.2",
     "react-native": "0.42.0",
-    "react-native-lock": "^0.5.0",
+    "react-native-lock": "futurice/react-native-lock#feature/customizedTheme",
     "react-native-vector-icons": "^4.0.0",
     "react-navigation": "^1.0.0-beta.7",
     "react-redux": "^4.4.5",

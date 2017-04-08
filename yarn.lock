@@ -3884,9 +3884,9 @@ react-native-drawer-layout@~1.1.5:
   dependencies:
     react-native-dismiss-keyboard "1.0.0"
 
-react-native-lock@^0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/react-native-lock/-/react-native-lock-0.5.0.tgz#2ef857220339e238ca262af12410e738dc6da54a"
+react-native-lock@futurice/react-native-lock#feature/customizedTheme:
+  version "0.3.0"
+  resolved "https://codeload.github.com/futurice/react-native-lock/tar.gz/4f9188dac88b8fede251bb4e33fdfb1c618accee"
   dependencies:
     react-native-auth0 "^0.0.1"
 
