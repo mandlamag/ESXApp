@@ -13,10 +13,10 @@ class CounterView extends Component {
   static displayName = 'CounterView';
 
   static navigationOptions = {
-    title: 'Counter',
+    title: 'Account',
     tabBar: () => ({
       icon: (props) => (
-        <Icon name='plus-one' size={24} color={props.tintColor} />
+        <Icon name='account-balance-wallet' size={24} color={props.tintColor} />
       )
     })
   }
@@ -76,8 +76,6 @@ class CounterView extends Component {
     const loadingStyle = this.props.loading
       ? {backgroundColor: '#eee'}
       : null;
-
-    console.log(`UserName: ${this.props.userName}`)
     return (
       <View style={styles.container}>
 
