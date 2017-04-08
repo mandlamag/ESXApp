@@ -1,20 +1,16 @@
 {
-  "name": "PepperoniAppTemplate",
-  "author": "Futurice",
-  "description": "React Native App Starter Kit for Android and iOS",
+  "name": "esxapp",
+  "author": "Mandla Magagula",
+  "description": "Stock App for humans",
   "license": "MIT",
-  "homepage": "http://getpepperoni.com",
-  "bugs": "https://github.com/futurice/pepperoni-app-kit/issues",
+  "homepage": "http://esx.com",
+  "bugs": "https://github.com/mandlamag/esxapp/issues",
   "repository": {
     "type": "git",
-    "url": "https://github.com/futurice/pepperoni-app-kit"
+    "url": "https://github.com/mandlamag/esxapp"
   },
   "keywords": [
-    "React Native",
-    "Starter Kit",
-    "Bitrise",
-    "Redux",
-    "Auth0"
+    "ESX"
   ],
   "version": "1.0.0",
   "private": false,
