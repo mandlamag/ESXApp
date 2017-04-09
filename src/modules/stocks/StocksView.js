@@ -14,10 +14,10 @@ class StocksView extends Component {
   static displayName = 'StocksView';
 
   static navigationOptions = {
-    title: 'Account',
+    title: 'Stocks',
     tabBar: () => ({
       icon: (props) => (
-        <Icon name='account-balance-wallet' size={24} color={props.tintColor} />
+        <Icon name='history' size={24} color={props.tintColor} />
       )
     })
   }

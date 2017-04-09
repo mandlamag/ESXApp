@@ -4,7 +4,7 @@ import data from '../../services/accounts';
 
 // Initial state
 const initialState = Map({
-  data: [],
+  value: [],
   loading: false
 });
 
@@ -16,7 +16,7 @@ const RANDOM_RESPONSE = 'CounterState/RANDOM_RESPONSE';
 
 // Action creators
 export function getStocks() {
-  return {type: GET_STOCKS, data: data};
+  return {type: GET_STOCKS, value: data};
 }
 
 // Reducer
@@ -24,7 +24,7 @@ export default function StocksStateReducer(state = initialState, action = {}) {
   switch (action.type) {
     case GET_STOCKS:
       return state
-        .set('data', action.data);
+        .set('stocks', action.value);
 
     default:
       return state;

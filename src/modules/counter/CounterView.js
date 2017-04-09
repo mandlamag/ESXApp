@@ -1,4 +1,5 @@
 import React, {PropTypes, Component} from 'react';
+import {Avatar, Grid, Row, Col}  from 'react-native-elements';
 import {
   StyleSheet,
   TouchableOpacity,
@@ -57,19 +58,26 @@ class CounterView extends Component {
     }
 
     return (
+            <Grid style={styles.container}>
+            <Row>
       <View style={styles.userContainer}>
-        <Image
-          style={styles.userProfilePhoto}
-          source={{ 
-            uri: this.props.userProfilePhoto,
-            width: 80,
-            height: 80
-          }}
-          />
+<Avatar
+  xlarge
+  rounded
+  source={{uri: this.props.userProfilePhoto}}
+  onPress={() => console.log("Works!")}
+  activeOpacity={0.7}
+/>
+      </View>
+      </Row>
+      <Row>
+      <View style={styles.userContainer}>
         <Text style={styles.linkButton}>
           Welcome, {this.props.userName}!
         </Text>
-      </View>
+        </View>
+      </Row>
+      </Grid>
     );
   };
 
@@ -78,10 +86,13 @@ class CounterView extends Component {
       ? {backgroundColor: '#eee'}
       : null;
     return (
-      <View style={styles.container}>
 
+            <Grid>
+            <Row>
         {this.renderUserInfo()}
-
+            </Row>
+            <Row>
+      <View style={styles.container}>
         <TouchableOpacity
           accessible={true}
           accessibilityLabel={'Fund Account'}
@@ -110,6 +121,8 @@ class CounterView extends Component {
           </Text>
         </TouchableOpacity>
       </View>
+            </Row>
+            </Grid>
     );
   }
 }
@@ -157,6 +170,7 @@ const styles = StyleSheet.create({
   welcome: {
     textAlign: 'center',
     color: 'black',
+
     marginBottom: 5,
     padding: 5
   },

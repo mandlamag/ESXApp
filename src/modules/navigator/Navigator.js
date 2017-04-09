@@ -2,6 +2,7 @@ import {Platform} from 'react-native';
 import {TabNavigator, StackNavigator} from 'react-navigation';
 
 import CounterViewContainer from '../counter/CounterViewContainer';
+import StocksViewContainer from '../stocks/StocksViewContainer';
 import ColorViewContainer from '../colors/ColorViewContainer';
 
 const headerColor = '#39babd';
@@ -10,6 +11,7 @@ const activeColor = 'white';
 // TabNavigator is nested inside StackNavigator
 export const MainScreenNavigator = TabNavigator({
   Counter: {screen: CounterViewContainer},
+  Stocks: {screen: StocksViewContainer},
   Color: {screen: ColorViewContainer}
 }, {
   tabBarOptions: {
