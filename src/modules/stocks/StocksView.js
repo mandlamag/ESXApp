@@ -17,37 +17,44 @@ class StocksView extends Component {
     title: 'Stocks',
     tabBar: () => ({
       icon: (props) => (
-        <Icon name='history' size={24} color={props.tintColor} />
+        <Icon name='view-list' size={24} color={props.tintColor} />
       )
     })
   }
 
   static propTypes = {
-    stocks: PropTypes.list,
+    stocks: PropTypes.array,
     stocksStateActions: PropTypes.shape({
       getStocks: PropTypes.func.isRequired,
     }).isRequired,
     navigate: PropTypes.func.isRequired
   };
 
-  getStocks = () => {
-    this.props.stocksStateActions.getStocks();
+  componentWillMount = () => {
+     this.props.stocksStateActions.getStocks();
+     let {stocks} = this.props;
+     let  data = stocks? stocks.stocks: [];
+
+     this.State =  {stocks:data}
   };
 
   render() {
-    const loadingStyle = this.props.loading
-      ? {backgroundColor: '#eee'}
-      : null;
+      let {stocks}  = this.props;
     return (
-      <View style={styles.container}>
 
 <List containerStyle={{marginBottom: 20}}>
   {
-    data.map((l, i) => (
+    stocks.stocks.map((l, i) => (
       <ListItem
         roundAvatar
         avatar={l.img}
         key={i}
+subtitle={
+          <View style={styles.subtitleView}>
+            <Text style={styles.ratingText}>{l.note}</Text>
+            <Text style={styles.ratingText}>{l.price}</Text>
+          </View>
+        }
         title={l.name}
       />
     ))
@@ -55,9 +62,30 @@ class StocksView extends Component {
 </List>
 
 
-  </View>
 );
 }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white'
+  },
+subtitleView: {
+    flexDirection: 'row',
+    paddingLeft: 10,
+    paddingTop: 5
+  },
+  ratingImage: {
+    height: 19.21,
+    width: 100
+  },
+  ratingText: {
+    paddingLeft: 10,
+    color: 'grey'
+  }
+});
 
 export default StocksView;

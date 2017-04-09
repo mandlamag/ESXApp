@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import StocksView from '../stocks/StocksView';
 
 class CounterView extends Component {
   static displayName = 'CounterView';
