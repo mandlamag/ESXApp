@@ -11,6 +11,13 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 class StocksView extends Component {
+    constructor(props)
+    {
+        super(props);
+     let {stocks} = this.props;
+     console.log('Constructor Stocks', stocks);
+        this.state = {stocks:[]};
+    }
   static displayName = 'StocksView';
 
   static navigationOptions = {
@@ -23,28 +30,32 @@ class StocksView extends Component {
   }
 
   static propTypes = {
-    stocks: PropTypes.array,
+    stocks: PropTypes.object,
     stocksStateActions: PropTypes.shape({
       getStocks: PropTypes.func.isRequired,
     }).isRequired,
     navigate: PropTypes.func.isRequired
   };
 
-  componentWillMount = () => {
+  componentDidMount = () => {
      this.props.stocksStateActions.getStocks();
      let {stocks} = this.props;
      let  data = stocks? stocks.stocks: [];
+     console.log('Stocks', data)
 
-     this.State =  {stocks:data}
+     this.setState({stocks:data})
+     console.log('Stocks', this.state.stocks)
   };
 
   render() {
-      let {stocks}  = this.props;
+      let {stocks}  = this.state;
+      let  data =  stocks? stocks: [];
+     console.log('rendered data', stocks)
     return (
 
 <List containerStyle={{marginBottom: 20}}>
   {
-    stocks.stocks.map((l, i) => (
+    data.map((l, i) => (
       <ListItem
         roundAvatar
         avatar={l.img}

@@ -7,8 +7,8 @@ import {
   Text,
   View
 } from 'react-native';
-
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import Swiper from 'react-native-swiper';
 
 class CounterView extends Component {
   static displayName = 'CounterView';
@@ -38,17 +38,14 @@ class CounterView extends Component {
   increment = () => {
     this.props.counterStateActions.increment();
   };
-
-  reset = () => {
-    this.props.counterStateActions.reset();
-  };
-
-  random = () => {
-    this.props.counterStateActions.random();
-  };
-
-  bored = () => {
-    this.props.navigate({routeName: 'Color'});
+  renderTestView = () => {
+    return (
+      <View style={{flex: 1, flexDirection: 'row'}}>
+        <View style={{width: 50, height: 50, backgroundColor: 'powderblue'}} />
+        <View style={{width: 50, height: 50, backgroundColor: 'skyblue'}} />
+        <View style={{width: 50, height: 50, backgroundColor: 'steelblue'}} />
+      </View>
+    );
   };
 
   renderUserInfo = () => {
@@ -57,26 +54,22 @@ class CounterView extends Component {
     }
 
     return (
-            <Grid style={styles.container}>
-            <Row>
-      <View style={styles.userContainer}>
+      <View style={{flex: 1, flexDirection: 'column'}}>
+        <View style={{marginTop:30, width: 80, height: 100,justifyContent:'center', alignItems:'center'}} >
 <Avatar
-  xlarge
+  large
   rounded
   source={{uri: this.props.userProfilePhoto}}
   onPress={() => console.log("Works!")}
   activeOpacity={0.7}
 />
-      </View>
-      </Row>
-      <Row>
-      <View style={styles.userContainer}>
+        </View>
+        <View style={{marginTop:30, height: 50}} > 
         <Text style={styles.linkButton}>
           Welcome, {this.props.userName}!
         </Text>
         </View>
-      </Row>
-      </Grid>
+      </View>
     );
   };
 
@@ -86,42 +79,18 @@ class CounterView extends Component {
       : null;
     return (
 
-            <Grid>
-            <Row>
+<Swiper style={styles.wrapper} showsButtons={false}>
+        <View style={styles.slide1}>
         {this.renderUserInfo()}
-            </Row>
-            <Row>
-      <View style={styles.container}>
-        <TouchableOpacity
-          accessible={true}
-          accessibilityLabel={'Fund Account'}
-          onPress={this.increment}
-          style={[styles.counterButton, loadingStyle]}>
-          <Text style={styles.counter}>
-            {this.props.counter}
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-            accessible={true}
-            accessibilityLabel={'Reset Account'}
-            onPress={this.reset}>
-          <Text style={styles.linkButton}>
-            Reset
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-            accessible={true}
-            accessibilityLabel={'Fund Randomly'}
-            onPress={this.random}>
-          <Text style={styles.linkButton}>
-            Random
-          </Text>
-        </TouchableOpacity>
-      </View>
-            </Row>
-            </Grid>
+        </View>
+        <View style={styles.slide2}>
+          <Text style={styles.text}>Beautiful</Text>
+        {this.renderTestView()}
+        </View>
+        <View style={styles.slide3}>
+          <Text style={styles.text}>And simple</Text>
+        </View>
+      </Swiper>
     );
   }
 }
@@ -140,15 +109,15 @@ const circle = {
 };
 
 const styles = StyleSheet.create({
-  container: {
+  profileContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection:'row',
     backgroundColor: 'white'
+
   },
   userContainer: {
-    justifyContent: 'center',
-    alignItems: 'center'
+    flex: 1,
+    flexDirection: 'row',
   },
   userProfilePhoto: {
     ...circle,
@@ -172,6 +141,31 @@ const styles = StyleSheet.create({
 
     marginBottom: 5,
     padding: 5
+  },
+wrapper: {
+  },
+  slide1: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FFF',
+  },
+  slide2: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#97CAE5',
+  },
+  slide3: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#92BBD9',
+  },
+  text: {
+    color: '#fff',
+    fontSize: 30,
+    fontWeight: 'bold',
   },
   linkButton: {
     textAlign: 'center',

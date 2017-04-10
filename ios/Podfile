@@ -1,13 +1,13 @@
 # Uncomment the next line to define a global platform for your project
 # platform :ios, '9.0'
 
-target 'esxapp' do
+target 'esx' do
   # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
   # use_frameworks!
 
-  # Pods for esxapp
+  # Pods for esx
 
-  target 'esxappTests' do
+  target 'esxTests' do
     inherit! :search_paths
     # Pods for testing
   end
@@ -20,3 +20,4 @@ pod 'Lock', '~> 1.26'
 pod 'Lock/TouchID'
 pod 'Lock/SMS'
 pod 'Lock/Email'
+pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'

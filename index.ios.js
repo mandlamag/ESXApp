@@ -15,4 +15,4 @@ class App extends Component {
   }
 }
 
-AppRegistry.registerComponent('esxapp', () => App);
+AppRegistry.registerComponent('esx', () => App);
