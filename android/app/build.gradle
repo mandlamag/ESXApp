@@ -126,6 +126,8 @@ android {
 }
 
 dependencies {
+    compile project(':mobile-center-crashes')
+    compile project(':mobile-center-analytics')
     compile project(':react-native-vector-icons')
     compile project(':react-native-lock')
     compile fileTree(dir: "libs", include: ["*.jar"])
