@@ -1,5 +1,5 @@
 import React, {PropTypes, Component} from 'react';
-import {Avatar, Grid, Row, Col}  from 'react-native-elements';
+import {Avatar, Button, Card, Grid, Row, Col}  from 'react-native-elements';
 import {
   StyleSheet,
   TouchableOpacity,
@@ -47,6 +47,18 @@ class CounterView extends Component {
       </View>
     );
   };
+  renderSummary = () => {
+    return (
+<Card 
+  title='HELLO WORLD'
+  >
+  <Text style={{marginBottom: 10}}>
+    The idea with React Native Elements is more about component structure than actual design.
+  </Text>
+</Card>
+    );
+  };
+
 
   renderUserInfo = () => {
     if (!this.props.userName) {
@@ -56,7 +68,7 @@ class CounterView extends Component {
     return (
       <View style={{flex: 1, flexDirection: 'column'}}>
         <View style={{marginTop:30, width: 80, height: 100,justifyContent:'center', alignItems:'center'}} >
-<Avatar
+<Avatar   containerStyle={{flex: 2, marginLeft: 220, marginTop: 40, marginBottom:3}}
   large
   rounded
   source={{uri: this.props.userProfilePhoto}}
@@ -64,11 +76,16 @@ class CounterView extends Component {
   activeOpacity={0.7}
 />
         </View>
-        <View style={{marginTop:30, height: 50}} > 
-        <Text style={styles.linkButton}>
-          Welcome, {this.props.userName}!
-        </Text>
-        </View>
+<Card containerStyle={{flex: 1,width:320, height:30, marginBottom:330}}
+  title={this.props.userName}
+  >
+  <Text h3 style={{marginBottom: 10, fontSize:16, fontWeight:'bold', color:'#c0c0c0'}}>
+   Avaiable Balances: R 30.
+  </Text>
+  <Text h3 style={{marginBottom: 10, fontSize:16, fontWeight:'bold', color:'#c0c0c0' }}>
+   Market Price: R 30.
+  </Text>
+</Card>
       </View>
     );
   };
@@ -148,7 +165,7 @@ wrapper: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#FFF',
+    backgroundColor: '#f5f5f5',
   },
   slide2: {
     flex: 1,
