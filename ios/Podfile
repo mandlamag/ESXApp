@@ -9,6 +9,7 @@ target 'esx' do
   pod 'RNMobileCenter', '~> 0.4.0'
   pod 'MobileCenter', '~> 0.6.0'
 
+
   target 'esxTests' do
     inherit! :search_paths
     # Pods for testing
@@ -22,4 +23,3 @@ pod 'Lock', '~> 1.26'
 pod 'Lock/TouchID'
 pod 'Lock/SMS'
 pod 'Lock/Email'
-pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'

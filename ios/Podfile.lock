@@ -47,13 +47,8 @@ PODS:
     - MobileCenter/MobileCenter
   - MobileCenter/MobileCenterDistribute (0.6.1):
     - MobileCenter/MobileCenter
-  - React (0.11.0):
-    - React/Core (= 0.11.0)
-  - React/Core (0.11.0)
   - RNMobileCenter (0.4.0):
     - MobileCenter (~> 0.6.0)
-  - RNVectorIcons (4.0.1):
-    - React
   - SimpleKeychain (0.7.0)
   - TouchIDAuth (0.2.0):
     - SimpleKeychain (~> 0.3)
@@ -65,23 +60,16 @@ DEPENDENCIES:
   - Lock/TouchID
   - MobileCenter (~> 0.6.0)
   - RNMobileCenter (~> 0.4.0)
-  - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
-
-EXTERNAL SOURCES:
-  RNVectorIcons:
-    :path: "../node_modules/react-native-vector-icons"
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   Lock: 8dcce0f7b77961141f11431f30d8fcc07a2708d3
   Masonry: 281802d04d787ea2973179ee8bcb50500579ede2
   MobileCenter: a0c2ac2ab187d485ffab42463638dbb7606c4019
-  React: ab1a2e21deb34965c38328d5ec40cc7d12c6050a
   RNMobileCenter: e7f446e0f7d702d52f74291fef6c834bb29605dd
-  RNVectorIcons: df0ada1195e3b7c47351897c00f55fd9b8c7aa84
   SimpleKeychain: b50cef3b87939d480ea1143425c00f5b4b70fe21
   TouchIDAuth: 0cf861f58a2cacfc1c12cb02de4850729d943c81
 
-PODFILE CHECKSUM: f16a277bf31bc51c4fb8bd6d26c1ed538dd159b7
+PODFILE CHECKSUM: b03c05d3c44a36ea801bede7499d87e4111ec8e9
 
 COCOAPODS: 1.2.0
