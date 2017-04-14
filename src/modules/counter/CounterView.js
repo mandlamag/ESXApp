@@ -1,5 +1,6 @@
-import React, {PropTypes, Component} from 'react';
-import {Avatar, Button, Card, Grid, Row, Col}  from 'react-native-elements';
+import React, {Component} from 'react';
+import { badge, Divider,Avatar,List,ListItem, Tile, Button, Card, Grid, Row, Col}  from 'react-native-elements';
+import PropTypes from 'prop-types';
 import {
   StyleSheet,
   TouchableOpacity,
@@ -9,8 +10,16 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Swiper from 'react-native-swiper';
+import {getStocks} from '../stocks/StocksState';
+var accounts =  require('../../services/accounts');
 
 class CounterView extends Component {
+    constructor(props)
+    {
+        super(props);
+     let {stocks} = this.props;
+        this.state = {stocks:accounts}
+    }
   static displayName = 'CounterView';
 
   static navigationOptions = {
@@ -25,12 +34,16 @@ class CounterView extends Component {
   static propTypes = {
     counter: PropTypes.number.isRequired,
     userName: PropTypes.string,
+    stocks: PropTypes.array,
     userProfilePhoto: PropTypes.string,
     loading: PropTypes.bool.isRequired,
     counterStateActions: PropTypes.shape({
       increment: PropTypes.func.isRequired,
       reset: PropTypes.func.isRequired,
       random: PropTypes.func.isRequired
+    }).isRequired,
+    stocksStateActions: PropTypes.shape({
+      getStocks: PropTypes.func.isRequired,
     }).isRequired,
     navigate: PropTypes.func.isRequired
   };
@@ -47,16 +60,29 @@ class CounterView extends Component {
       </View>
     );
   };
-  renderSummary = () => {
+  renderStocks = (data) => {
     return (
-<Card 
-  title='HELLO WORLD'
-  >
-  <Text style={{marginBottom: 10}}>
-    The idea with React Native Elements is more about component structure than actual design.
-  </Text>
-</Card>
-    );
+
+<List containerStyle={{marginBottom: 20}}>
+  {
+   data.map((l, i) => (
+      <ListItem
+        roundAvatar
+        avatar={l.img}
+        key={i}
+subtitle={
+          <View style={styles.subtitleView}>
+            <Text style={styles.ratingText}>{l.shares} shares</Text>
+          </View>
+        }
+badge={{ value: l.price, badgeTextStyle: { color: l.delta == 'down'? 'red': 'green' }, badgeContainerStyle: { marginTop: 10 } }}
+        title={l.name}
+      />
+    ))
+  }
+</List>
+
+);
   };
 
 
@@ -91,6 +117,10 @@ class CounterView extends Component {
   };
 
   render() {
+      var {stocks, payload}  = this.props;
+      console.log('accounts', accounts)
+      var  data =  this.state.stocks? this.state.stocks: [];
+      console.log('props stocks', stocks);
     const loadingStyle = this.props.loading
       ? {backgroundColor: '#eee'}
       : null;
@@ -101,8 +131,7 @@ class CounterView extends Component {
         {this.renderUserInfo()}
         </View>
         <View style={styles.slide2}>
-          <Text style={styles.text}>Beautiful</Text>
-        {this.renderTestView()}
+        {this.renderStocks(stocks)}
         </View>
         <View style={styles.slide3}>
           <Text style={styles.text}>And simple</Text>
@@ -170,8 +199,7 @@ wrapper: {
   slide2: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#97CAE5',
+    backgroundColor: '#fff',
   },
   slide3: {
     flex: 1,
@@ -189,6 +217,25 @@ wrapper: {
     color: '#CCCCCC',
     marginBottom: 10,
     padding: 5
+  },
+  stocksContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white'
+  },
+subtitleView: {
+    flexDirection: 'row',
+    paddingLeft: 10,
+    paddingTop: 5
+  },
+  ratingImage: {
+    height: 19.21,
+    width: 100
+  },
+  ratingText: {
+    paddingLeft: 10,
+    color: 'grey'
   }
 });
 

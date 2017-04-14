@@ -10,12 +10,12 @@ import {
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
+var accounts =  require('../../services/accounts');
 class StocksView extends Component {
     constructor(props)
     {
         super(props);
      let {stocks} = this.props;
-     console.log('Constructor Stocks', stocks);
         this.state = {stocks:[]};
     }
   static displayName = 'StocksView';
@@ -41,28 +41,25 @@ class StocksView extends Component {
      this.props.stocksStateActions.getStocks();
      let {stocks} = this.props;
      let  data = stocks? stocks.stocks: [];
-     console.log('Stocks', data)
 
      this.setState({stocks:data})
-     console.log('Stocks', this.state.stocks)
   };
 
   render() {
       let {stocks}  = this.state;
-      let  data =  stocks? stocks: [];
-     console.log('rendered data', stocks)
+      let  data =  stocks? stocks.stocks: [];
     return (
 
 <List containerStyle={{marginBottom: 20}}>
   {
-    data.map((l, i) => (
+    accounts.stocks.map((l, i) => (
       <ListItem
         roundAvatar
         avatar={l.img}
         key={i}
 subtitle={
           <View style={styles.subtitleView}>
-            <Text style={styles.ratingText}>{l.note}</Text>
+            <Text style={styles.ratingText}>{l.shares}</Text>
             <Text style={styles.ratingText}>{l.price}</Text>
           </View>
         }
