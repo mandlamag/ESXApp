@@ -39,7 +39,6 @@ yarn-error.log
 
 
 # Secrets
-env.js
 
 # BUCK
 buck-out/
