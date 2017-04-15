@@ -10,6 +10,7 @@ export default connect(
     counter: state.getIn(['counter', 'value']),
     loading: state.getIn(['counter', 'loading']),
     stocks: state.getIn(['stocks', 'payload' ]),
+    offers: state.getIn(['counter', 'payload' ]),
     userName: state.getIn(['auth', 'currentUser', 'name']),
     userProfilePhoto: state.getIn(['auth', 'currentUser', 'picture'])
   }),

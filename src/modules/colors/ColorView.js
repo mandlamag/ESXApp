@@ -17,10 +17,10 @@ class ColorView extends Component {
   static displayName = 'ColorView';
 
   static navigationOptions = {
-    title: 'Colors!',
+    title: 'Settings',
     tabBar: () => ({
       icon: (props) => (
-        <Icon name='color-lens' size={24} color={props.tintColor} />
+        <Icon name='settings' size={24} color={props.tintColor} />
       )
     }),
     // TODO: move this into global config?
@@ -48,7 +48,7 @@ class ColorView extends Component {
   };
 
   render() {
-    const buttonText = 'Open in Stack Navigator';
+    const buttonText = 'Settings';
     return (
       <View style={[styles.container, {backgroundColor: this.state.background}]}>
         <Button color='#ee7f06' title={buttonText} onPress={this.open}/>

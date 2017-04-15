@@ -1,7 +1,7 @@
 import {Map} from 'immutable';
 import {loop, Effects} from 'redux-loop-symbol-ponyfill';
 import {generateRandomNumber} from '../../services/randomNumberService';
-
+var accounts =  require('../../services/accounts');
 // Initial state
 const initialState = Map({
   value: 0,
@@ -11,6 +11,7 @@ const initialState = Map({
 // Actions
 const INCREMENT = 'CounterState/INCREMENT';
 const RESET = 'CounterState/RESET';
+const GET_OFFERS = 'CounterState/GET_OFFERS';
 const RANDOM_REQUEST = 'CounterState/RANDOM_REQUEST';
 const RANDOM_RESPONSE = 'CounterState/RANDOM_RESPONSE';
 
@@ -36,6 +37,12 @@ export async function requestRandomNumber() {
   };
 }
 
+export async function getOffers() {
+  return {
+    type: GET_OFFERS,
+    payload:accounts.offers 
+  };
+}
 // Reducer
 export default function CounterStateReducer(state = initialState, action = {}) {
   switch (action.type) {
@@ -55,6 +62,10 @@ export default function CounterStateReducer(state = initialState, action = {}) {
       return state
         .set('loading', false)
         .set('value', action.payload);
+
+    case GET_OFFERS:
+      return state
+        .set('payload', action.payload);
 
     default:
       return state;

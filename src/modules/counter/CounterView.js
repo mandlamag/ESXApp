@@ -17,8 +17,8 @@ class CounterView extends Component {
     constructor(props)
     {
         super(props);
-     let {stocks} = this.props;
-        this.state = {stocks:accounts}
+     let {stocks, offers} = this.props;
+        this.state = {stocks:accounts, offers: offers}
     }
   static displayName = 'CounterView';
 
@@ -35,10 +35,12 @@ class CounterView extends Component {
     counter: PropTypes.number.isRequired,
     userName: PropTypes.string,
     stocks: PropTypes.array,
+    offers: PropTypes.array,
     userProfilePhoto: PropTypes.string,
     loading: PropTypes.bool.isRequired,
     counterStateActions: PropTypes.shape({
       increment: PropTypes.func.isRequired,
+      getOffers: PropTypes.func.isRequired,
       reset: PropTypes.func.isRequired,
       random: PropTypes.func.isRequired
     }).isRequired,
@@ -60,6 +62,7 @@ class CounterView extends Component {
       </View>
     );
   };
+
   renderStocks = (data) => {
     return (
 
@@ -85,6 +88,30 @@ badge={{ value: l.price, badgeTextStyle: { color: l.delta == 'down'? 'red': 'gre
 );
   };
 
+  renderOffers = (data) => {
+    return (
+
+<List containerStyle={{marginBottom: 20}}>
+  {
+   accounts.offers.map((l, i) => (
+      <ListItem
+        roundAvatar
+        avatar={l.img}
+        key={i}
+subtitle={
+          <View style={styles.subtitleView}>
+            <Text style={styles.ratingText}>{l.shares} shares</Text>
+          </View>
+        }
+badge={{ value: l.price, badgeTextStyle: { color: l.side == 'Sell'? 'red': 'green' }, badgeContainerStyle: { marginTop: 10 } }}
+        title={l.mnemonic+ ' | ' +l.name +' '+ l.surname}
+      />
+    ))
+  }
+</List>
+
+);
+  };
 
   renderUserInfo = () => {
     if (!this.props.userName) {
@@ -106,7 +133,7 @@ badge={{ value: l.price, badgeTextStyle: { color: l.delta == 'down'? 'red': 'gre
   title={this.props.userName}
   >
   <Text h3 style={{marginBottom: 10, fontSize:16, fontWeight:'bold', color:'#c0c0c0'}}>
-   Avaiable Balances: R 30.
+   Avaiable Balances: R 3000
   </Text>
   <Text h3 style={{marginBottom: 10, fontSize:16, fontWeight:'bold', color:'#c0c0c0' }}>
    Market Price: R 30.
@@ -117,10 +144,8 @@ badge={{ value: l.price, badgeTextStyle: { color: l.delta == 'down'? 'red': 'gre
   };
 
   render() {
-      var {stocks, payload}  = this.props;
-      console.log('accounts', accounts)
-      var  data =  this.state.stocks? this.state.stocks: [];
-      console.log('props stocks', stocks);
+      var {stocks, offers}  = this.props;
+      console.log('offers', offers)
     const loadingStyle = this.props.loading
       ? {backgroundColor: '#eee'}
       : null;
@@ -134,7 +159,7 @@ badge={{ value: l.price, badgeTextStyle: { color: l.delta == 'down'? 'red': 'gre
         {this.renderStocks(stocks)}
         </View>
         <View style={styles.slide3}>
-          <Text style={styles.text}>And simple</Text>
+        {this.renderOffers(offers)}
         </View>
       </Swiper>
     );
@@ -194,7 +219,7 @@ wrapper: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#fff',
   },
   slide2: {
     flex: 1,
@@ -204,8 +229,7 @@ wrapper: {
   slide3: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#92BBD9',
+    backgroundColor: '#fff',
   },
   text: {
     color: '#fff',
