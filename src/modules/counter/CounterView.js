@@ -13,7 +13,6 @@ import Swiper from 'react-native-swiper';
 import {getStocks} from '../stocks/StocksState';
 var accounts =  require('../../services/accounts');
 
-const log = () => console.log('this is an example method')
 
 class CounterView extends Component {
     constructor() {
@@ -22,7 +21,7 @@ class CounterView extends Component {
     this.state = {
       dataSource: ds.cloneWithRows(accounts.offers)
     }
-    this.renderRow = this.renderOfferRow.bind(this)
+    this.renderOfferRow = this.renderOfferRow.bind(this);
     }
   static displayName = 'CounterView';
 
@@ -54,11 +53,14 @@ class CounterView extends Component {
     navigate: PropTypes.func.isRequired
   };
 
+  openDetails = (rowData) => {
+console.log(' Pressed RowData', rowData)
+  };
   renderOfferRow (rowData, sectionID) {
     return (
       <ListItem
         key={sectionID}
-        onPress={log}
+        onPress={()=> {this.openDetails(rowData)}}
         roundAvatar
         avatar={rowData.img}
 subtitle={
@@ -134,7 +136,7 @@ badge={{ value: l.price, badgeTextStyle: { color: l.side == 'Sell'? 'red': 'gree
 );
   };
 
-  renderAsyncOffers = (data) => {
+  renderAsyncOffers = () => {
     return (
 
 <List containerStyle={{marginBottom: 20}}>
@@ -163,7 +165,7 @@ badge={{ value: l.price, badgeTextStyle: { color: l.side == 'Sell'? 'red': 'gree
 />
 
         </View>
-<Card containerStyle={{flex: 1,width:320, height:30, marginBottom:330}}
+<Card containerStyle={{flex: 1, alignSelf:'center'}}
   title={this.props.userName} >
   <Text h3 style={{marginBottom: 10, fontSize:16, fontWeight:'bold', color:'#c0c0c0'}}>
    Avaiable Balances: R 3000
@@ -178,7 +180,6 @@ badge={{ value: l.price, badgeTextStyle: { color: l.side == 'Sell'? 'red': 'gree
 
   render() {
       var {stocks, offers}  = this.props;
-      console.log('offers', offers)
     const loadingStyle = this.props.loading
       ? {backgroundColor: '#eee'}
       : null;
@@ -209,7 +210,7 @@ badge={{ value: l.price, badgeTextStyle: { color: l.side == 'Sell'? 'red': 'gree
             placeholder='Search stocks...' />
         </View>
       <ScrollView keyboardShouldPersistTaps="always" style={styles.mainContainer}>
-        {this.renderAsyncOffers(offers)}
+        {this.renderAsyncOffers()}
       </ScrollView>
         </View>
       </Swiper>
