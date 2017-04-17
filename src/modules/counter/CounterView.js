@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import { badge, Divider,Avatar,List,ListItem, Tile, Button, Card, Grid, Row, Col}  from 'react-native-elements';
+import { badge, SearchBar,Avatar,List,ListItem, Tile, Button, Card, Grid, Row, Col}  from 'react-native-elements';
 import PropTypes from 'prop-types';
 import {
   StyleSheet,
-  TouchableOpacity,
+  TouchableOpacity,ScrollView, ListView,
   Image,
   Text,
   View
@@ -13,12 +13,16 @@ import Swiper from 'react-native-swiper';
 import {getStocks} from '../stocks/StocksState';
 var accounts =  require('../../services/accounts');
 
+const log = () => console.log('this is an example method')
+
 class CounterView extends Component {
-    constructor(props)
-    {
-        super(props);
-     let {stocks, offers} = this.props;
-        this.state = {stocks:accounts, offers: offers}
+    constructor() {
+      super();
+    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
+    this.state = {
+      dataSource: ds.cloneWithRows(accounts.offers)
+    }
+    this.renderRow = this.renderOfferRow.bind(this)
     }
   static displayName = 'CounterView';
 
@@ -50,6 +54,23 @@ class CounterView extends Component {
     navigate: PropTypes.func.isRequired
   };
 
+  renderOfferRow (rowData, sectionID) {
+    return (
+      <ListItem
+        key={sectionID}
+        onPress={log}
+        roundAvatar
+        avatar={rowData.img}
+subtitle={
+          <View style={styles.subtitleView}>
+            <Text style={styles.ratingText}>{rowData.shares} shares</Text>
+          </View>
+        }
+badge={{ value: rowData.price, badgeTextStyle: { color: rowData.delta == 'down'? 'red': 'green' }, badgeContainerStyle: { marginTop: 10 } }}
+        title={rowData.mnemonic+ ' | ' +rowData.name +' '+ rowData.surname}
+      />
+    )
+  }
   increment = () => {
     this.props.counterStateActions.increment();
   };
@@ -113,6 +134,18 @@ badge={{ value: l.price, badgeTextStyle: { color: l.side == 'Sell'? 'red': 'gree
 );
   };
 
+  renderAsyncOffers = (data) => {
+    return (
+
+<List containerStyle={{marginBottom: 20}}>
+          <ListView
+            renderRow={this.renderOfferRow}
+            dataSource={this.state.dataSource}
+            />
+</List>
+
+);
+  };
   renderUserInfo = () => {
     if (!this.props.userName) {
       return null;
@@ -128,10 +161,10 @@ badge={{ value: l.price, badgeTextStyle: { color: l.side == 'Sell'? 'red': 'gree
   onPress={() => console.log("Works!")}
   activeOpacity={0.7}
 />
+
         </View>
 <Card containerStyle={{flex: 1,width:320, height:30, marginBottom:330}}
-  title={this.props.userName}
-  >
+  title={this.props.userName} >
   <Text h3 style={{marginBottom: 10, fontSize:16, fontWeight:'bold', color:'#c0c0c0'}}>
    Avaiable Balances: R 3000
   </Text>
@@ -156,10 +189,28 @@ badge={{ value: l.price, badgeTextStyle: { color: l.side == 'Sell'? 'red': 'gree
         {this.renderUserInfo()}
         </View>
         <View style={styles.slide2}>
+        <View style={{marginTop: 10, marginBottom: 0}}>
+          <SearchBar
+            round
+            lightTheme
+            clearIcon
+            placeholder='Search stocks...' />
+        </View>
+      <ScrollView keyboardShouldPersistTaps="always" style={styles.mainContainer}>
         {this.renderStocks(stocks)}
+      </ScrollView>
         </View>
         <View style={styles.slide3}>
-        {this.renderOffers(offers)}
+        <View style={{marginTop: 10, marginBottom: 0}}>
+          <SearchBar
+            round
+            lightTheme
+            clearIcon
+            placeholder='Search stocks...' />
+        </View>
+      <ScrollView keyboardShouldPersistTaps="always" style={styles.mainContainer}>
+        {this.renderAsyncOffers(offers)}
+      </ScrollView>
         </View>
       </Swiper>
     );
