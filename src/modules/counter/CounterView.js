@@ -11,6 +11,7 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Swiper from 'react-native-swiper';
 import {getStocks} from '../stocks/StocksState';
+import Modal from 'react-native-modal';
 var accounts =  require('../../services/accounts');
 
 
@@ -19,7 +20,7 @@ class CounterView extends Component {
       super();
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
     this.state = {
-      dataSource: ds.cloneWithRows(accounts.offers)
+        dataSource: ds.cloneWithRows(accounts.offers), selectedRowData:null, isModalVisible: true
     }
     this.renderOfferRow = this.renderOfferRow.bind(this);
     }
@@ -37,7 +38,7 @@ class CounterView extends Component {
   static propTypes = {
     counter: PropTypes.number.isRequired,
     userName: PropTypes.string,
-    stocks: PropTypes.array,
+    stocks: PropTypes.object,
     offers: PropTypes.array,
     userProfilePhoto: PropTypes.string,
     loading: PropTypes.bool.isRequired,
@@ -53,8 +54,13 @@ class CounterView extends Component {
     navigate: PropTypes.func.isRequired
   };
 
+  _showModal = () => {this.setState({ isModalVisible: true });  console.log('Modal details visible', this.state.selectedRowData)};
+  _hideModal = () => this.setState({ isModalVisible: false })
+
   openDetails = (rowData) => {
-console.log(' Pressed RowData', rowData)
+    this.setState({selectedRowData:rowData});
+    this._showModal();
+ 
   };
   renderOfferRow (rowData, sectionID) {
     return (
@@ -178,11 +184,36 @@ badge={{ value: l.price, badgeTextStyle: { color: l.side == 'Sell'? 'red': 'gree
     );
   };
 
+ _renderButton = (text, onPress) => (
+    <TouchableOpacity onPress={onPress}>
+      <View style={styles.button}>
+        <Text>{text}</Text>
+      </View>
+    </TouchableOpacity>
+  );
+_renderOfferModalContent = (rowData) => (
+        
+    <View style={styles.modalContent}>
+              <Tile
+                 imageSrc={rowData.img}
+                 title={rowData.mnemonic+ '-' + rowData.name + ' '+ rowData.surname}
+                 titleStyle={{fontSize: 20}}
+                 featured
+                 caption={rowData.side}
+                 activeOpacity={1}
+                 width={310}
+              />
+      <Text>Hello! </Text>
+      {this._renderButton('Close', () => this._hideModal())}
+    </View>
+  );
+
   render() {
       var {stocks, offers}  = this.props;
     const loadingStyle = this.props.loading
       ? {backgroundColor: '#eee'}
       : null;
+     var  rowData =  this.state.selectedRowData? this.state.selectedRowData:  {name: 'J', mnemonic: 'UNK', surname: 'Doe', img:'http://lorempixel.com/400/400/people/1/'}
     return (
 
 <Swiper style={styles.wrapper} showsButtons={false}>
@@ -211,6 +242,19 @@ badge={{ value: l.price, badgeTextStyle: { color: l.side == 'Sell'? 'red': 'gree
         </View>
       <ScrollView keyboardShouldPersistTaps="always" style={styles.mainContainer}>
         {this.renderAsyncOffers()}
+<Modal
+          isVisible={this.state.isModalVisible}
+          backdropColor={'grey'}
+          backdropOpacity={4}
+          animationIn={'zoomInDown'}
+          animationOut={'zoomOutUp'}
+          animationInTiming={1000}
+          animationOutTiming={1000}
+          backdropTransitionInTiming={1000}
+          backdropTransitionOutTiming={1000}
+        >
+          {this._renderOfferModalContent(rowData)}
+        </Modal>
       </ScrollView>
         </View>
       </Swiper>
@@ -308,6 +352,19 @@ subtitleView: {
   ratingImage: {
     height: 19.21,
     width: 100
+  },
+
+modalContent: {
+    backgroundColor: 'white',
+    padding: 22,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 4,
+    borderColor: 'rgba(0, 0, 0, 0.1)',
+  },
+  bottomModal: {
+    justifyContent: 'flex-end',
+    margin: 0,
   },
   ratingText: {
     paddingLeft: 10,
