@@ -14,7 +14,6 @@ const activeColor = 'white';
 export const MainScreenNavigator = TabNavigator({
   Counter: {screen: CounterViewContainer},
   Stocks: {screen: StocksViewContainer},
-  Stock: {screen: StockViewContainer},
   Buy: {screen: BuyViewContainer},
   Color: {screen: ColorViewContainer}
 }, {
@@ -44,7 +43,6 @@ MainScreenNavigator.navigationOptions = {
 const AppNavigator = StackNavigator({
   Home: {screen: MainScreenNavigator},
   StocksRoute: {screen: StocksViewContainer},
-  StockRoute: {screen: StockViewContainer},
   BuyRoute: {screen: BuyViewContainer},
   InfiniteColorStack: {screen: ColorViewContainer}
 });

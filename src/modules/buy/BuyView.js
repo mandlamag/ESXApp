@@ -24,7 +24,7 @@ class BuyView extends Component {
     title: 'Buy',
     tabBar: () => ({
       icon: (props) => (
-        <Icon name='view-list' size={24} color={props.tintColor} />
+        <Icon name='shopping-cart' size={24} color={props.tintColor} />
       )
     })
   }
