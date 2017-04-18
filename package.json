@@ -47,6 +47,7 @@
     "react-native": "0.42.0",
     "react-native-elements": "^0.10.3",
     "react-native-lock": "futurice/react-native-lock#feature/customizedTheme",
+    "react-native-modal": "^2.3.2",
     "react-native-swipeable": "^0.4.0",
     "react-native-swiper": "^1.5.4",
     "react-native-vector-icons": "^4.0.1",

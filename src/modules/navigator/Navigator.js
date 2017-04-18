@@ -3,6 +3,7 @@ import {TabNavigator, StackNavigator} from 'react-navigation';
 
 import CounterViewContainer from '../counter/CounterViewContainer';
 import StocksViewContainer from '../stocks/StocksViewContainer';
+import StockViewContainer from '../stock/StockViewContainer';
 import BuyViewContainer from '../buy/BuyViewContainer';
 import ColorViewContainer from '../colors/ColorViewContainer';
 
@@ -13,6 +14,7 @@ const activeColor = 'white';
 export const MainScreenNavigator = TabNavigator({
   Counter: {screen: CounterViewContainer},
   Stocks: {screen: StocksViewContainer},
+  Stock: {screen: StockViewContainer},
   Buy: {screen: BuyViewContainer},
   Color: {screen: ColorViewContainer}
 }, {
@@ -42,6 +44,7 @@ MainScreenNavigator.navigationOptions = {
 const AppNavigator = StackNavigator({
   Home: {screen: MainScreenNavigator},
   StocksRoute: {screen: StocksViewContainer},
+  StockRoute: {screen: StockViewContainer},
   BuyRoute: {screen: BuyViewContainer},
   InfiniteColorStack: {screen: ColorViewContainer}
 });
