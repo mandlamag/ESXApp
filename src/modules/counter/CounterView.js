@@ -20,8 +20,8 @@ class CounterView extends Component {
       super();
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
     this.state = {
-        dataSource: ds.cloneWithRows(accounts.offers), selectedRowData:null, isModalVisible: true
-    }
+        dataSource: ds.cloneWithRows(accounts.offers), selectedRowData:null, isModalVisible: true,
+        stocksDataSource: ds.cloneWithRows(accounts.stocks)    }
     this.renderOfferRow = this.renderOfferRow.bind(this);
     }
   static displayName = 'CounterView';
@@ -154,15 +154,27 @@ badge={{ value: l.price, badgeTextStyle: { color: l.side == 'Sell'? 'red': 'gree
 
 );
   };
+  renderAsyncStocks = () => {
+    return (
+
+<List containerStyle={{marginBottom: 20}}>
+          <ListView
+            renderRow={this.renderOfferRow}
+            dataSource={this.state.stocksDataSource}
+            />
+</List>
+
+);
+  };
   renderUserInfo = () => {
     if (!this.props.userName) {
       return null;
     }
 
     return (
-      <View style={{flex: 1, flexDirection: 'column'}}>
-        <View style={{marginTop:30, width: 80, height: 100,justifyContent:'center', alignItems:'center'}} >
-<Avatar   containerStyle={{flex: 2, marginLeft: 220, marginTop: 40, marginBottom:3}}
+      <View style={{flex: 1 }}>
+        <View style={{marginTop:30, height: 100,justifyContent:'space-around', alignItems:'center'}} >
+<Avatar   containerStyle={{flex: 1, marginTop: 40, marginBottom:20}}
   large
   rounded
   source={{uri: this.props.userProfilePhoto}}
@@ -171,22 +183,32 @@ badge={{ value: l.price, badgeTextStyle: { color: l.side == 'Sell'? 'red': 'gree
 />
 
         </View>
-<Card containerStyle={{flex: 1, alignSelf:'center'}}
-  title={this.props.userName} >
-  <Text h3 style={{marginBottom: 10, fontSize:16, fontWeight:'bold', color:'#c0c0c0'}}>
-   Avaiable Balances: R 3000
-  </Text>
-  <Text h3 style={{marginBottom: 10, fontSize:16, fontWeight:'bold', color:'#c0c0c0' }}>
-   Market Price: R 30.
-  </Text>
-</Card>
+            <View style={{paddingTop: 20}}>
+              <Tile
+                imageSrc={{uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Half_Dome_from_Glacier_Point%2C_Yosemite_NP_-_Diliff.jpg/320px-Half_Dome_from_Glacier_Point%2C_Yosemite_NP_-_Diliff.jpg'}}
+     title={this.props.userName}            
+                titleStyle={{fontSize: 20}}
+                activeOpacity={1}
+                width={310}
+                contentContainerStyle={{height: 70}}
+              >
+                <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
+                  <Text style={{color: 'green', fontSize:12}}>
+                        Market Price: R 30
+                  </Text>
+                  <Text style={{color: 'blue', fontSize:12}}>
+                        Balances: R 67840
+                  </Text>
+                </View>
+              </Tile>
+            </View>
       </View>
     );
   };
 
  _renderButton = (text, onPress) => (
     <TouchableOpacity onPress={onPress}>
-      <View style={styles.button}>
+      <View style={styles.modalButton}>
         <Text>{text}</Text>
       </View>
     </TouchableOpacity>
@@ -197,14 +219,24 @@ _renderOfferModalContent = (rowData) => (
               <Tile
                  imageSrc={rowData.img}
                  title={rowData.mnemonic+ '-' + rowData.name + ' '+ rowData.surname}
-                 titleStyle={{fontSize: 20}}
-                 featured
+                 titleStyle={{fontSize: 22}}
                  caption={rowData.side}
+                 featured
                  activeOpacity={1}
                  width={310}
-              />
-      <Text>Hello! </Text>
+              >
+                </Tile>
+                <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
+                  <Text style={{color: 'green'}}>Visit</Text>
+                  <Text style={{color: 'blue'}}>Find out More</Text>
+                </View>
+                <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
+                  <Text style={{color: 'blue'}}>Number of Shares: {rowData.shares}</Text>
+                  <Text style={{color: 'green'}}>At: R {rowData.price}</Text>
+                </View>
+                <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
       {this._renderButton('Close', () => this._hideModal())}
+                </View>
     </View>
   );
 
@@ -228,8 +260,12 @@ _renderOfferModalContent = (rowData) => (
             clearIcon
             placeholder='Search stocks...' />
         </View>
+        <View style={styles.hero}>
+          <Icon color='green' name='equalizer' size={62} />
+          <Text style={styles.heading}>Your Stocks</Text>
+        </View>
       <ScrollView keyboardShouldPersistTaps="always" style={styles.mainContainer}>
-        {this.renderStocks(stocks)}
+        {this.renderAsyncStocks()}
       </ScrollView>
         </View>
         <View style={styles.slide3}>
@@ -239,6 +275,10 @@ _renderOfferModalContent = (rowData) => (
             lightTheme
             clearIcon
             placeholder='Search stocks...' />
+        </View>
+        <View style={styles.hero}>
+          <Icon color='gray' name='whatshot' size={62} />
+          <Text style={styles.heading}>Offers</Text>
         </View>
       <ScrollView keyboardShouldPersistTaps="always" style={styles.mainContainer}>
         {this.renderAsyncOffers()}
@@ -289,6 +329,15 @@ const styles = StyleSheet.create({
   userProfilePhoto: {
     ...circle,
     alignSelf: 'center'
+  },
+modalButton: {
+    backgroundColor: 'lightblue',
+    padding: 12,
+    margin: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 4,
+    borderColor: 'rgba(0, 0, 0, 0.1)',
   },
   counterButton: {
     ...button,
@@ -353,13 +402,25 @@ subtitleView: {
     height: 19.21,
     width: 100
   },
-
+  heading: {
+    color: 'white',
+    marginTop: 10,
+    fontSize: 22
+  },
+  hero: {
+    marginTop: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 15,
+    backgroundColor: '#43484d'
+  },
 modalContent: {
     backgroundColor: 'white',
-    padding: 22,
+    padding: 10,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 4,
+    height: 450,
     borderColor: 'rgba(0, 0, 0, 0.1)',
   },
   bottomModal: {
