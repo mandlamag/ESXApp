@@ -38,7 +38,7 @@ class CounterView extends Component {
   static propTypes = {
     counter: PropTypes.number.isRequired,
     userName: PropTypes.string,
-    stocks: PropTypes.object,
+    stocks: PropTypes.array,
     offers: PropTypes.array,
     userProfilePhoto: PropTypes.string,
     loading: PropTypes.bool.isRequired,
@@ -90,56 +90,6 @@ badge={{ value: rowData.price, badgeTextStyle: { color: rowData.delta == 'down'?
         <View style={{width: 50, height: 50, backgroundColor: 'steelblue'}} />
       </View>
     );
-  };
-
-  renderStocks = (data) => {
-    return (
-
-<List containerStyle={{marginBottom: 20}}>
-  {
-   data.map((l, i) => (
-      <ListItem
-        roundAvatar
-        avatar={l.img}
-        key={i}
-subtitle={
-          <View style={styles.subtitleView}>
-            <Text style={styles.ratingText}>{l.shares} shares</Text>
-          </View>
-        }
-badge={{ value: l.price, badgeTextStyle: { color: l.delta == 'down'? 'red': 'green' }, badgeContainerStyle: { marginTop: 10 } }}
-        title={l.name}
-      />
-    ))
-  }
-</List>
-
-);
-  };
-
-  renderOffers = (data) => {
-    return (
-
-<List containerStyle={{marginBottom: 20}}>
-  {
-   accounts.offers.map((l, i) => (
-      <ListItem
-        roundAvatar
-        avatar={l.img}
-        key={i}
-subtitle={
-          <View style={styles.subtitleView}>
-            <Text style={styles.ratingText}>{l.shares} shares</Text>
-          </View>
-        }
-badge={{ value: l.price, badgeTextStyle: { color: l.side == 'Sell'? 'red': 'green' }, badgeContainerStyle: { marginTop: 10 } }}
-        title={l.mnemonic+ ' | ' +l.name +' '+ l.surname}
-      />
-    ))
-  }
-</List>
-
-);
   };
 
   renderAsyncOffers = () => {
@@ -194,10 +144,10 @@ badge={{ value: l.price, badgeTextStyle: { color: l.side == 'Sell'? 'red': 'gree
               >
                 <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
                   <Text style={{color: 'green', fontSize:12}}>
-                        Market Price: R 30
+                        My Stock Price: R 30
                   </Text>
                   <Text style={{color: 'blue', fontSize:12}}>
-                        Balances: R 67840
+                        Portfolio Value: R 67840
                   </Text>
                 </View>
               </Tile>
