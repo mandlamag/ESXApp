@@ -20,9 +20,10 @@ class CounterView extends Component {
       super();
     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
     this.state = {
-        dataSource: ds.cloneWithRows(accounts.offers), selectedRowData:null, isModalVisible: true,
+        dataSource: ds.cloneWithRows(accounts.offers), selectedRowData:null, isStocksModalVisible: false,isOffersModalVisible: false,
         stocksDataSource: ds.cloneWithRows(accounts.stocks)    }
     this.renderOfferRow = this.renderOfferRow.bind(this);
+    this.renderStockRow = this.renderStockRow.bind(this);
     }
   static displayName = 'CounterView';
 
@@ -54,19 +55,28 @@ class CounterView extends Component {
     navigate: PropTypes.func.isRequired
   };
 
-  _showModal = () => {this.setState({ isModalVisible: true });  console.log('Modal details visible', this.state.selectedRowData)};
-  _hideModal = () => this.setState({ isModalVisible: false })
+  _showOfferModal = () => {this.setState({ isOffersModalVisible: true });  console.log('Modal details visible', this.state.selectedRowData)};
+  _hideOfferModal = () => this.setState({ isOffersModalVisible: false })
 
-  openDetails = (rowData) => {
+  _showStockModal = () => {this.setState({ isStocksModalVisible: true });  console.log('Modal details visible', this.state.selectedRowData)};
+  _hideStockModal = () => this.setState({ isStocksModalVisible: false })
+
+  openOfferDetails = (rowData) => {
     this.setState({selectedRowData:rowData});
-    this._showModal();
+    this._showOfferModal();
+ 
+  };
+
+  openStockDetails = (rowData) => {
+    this.setState({selectedRowData:rowData});
+    this._showStockModal();
  
   };
   renderOfferRow (rowData, sectionID) {
     return (
       <ListItem
         key={sectionID}
-        onPress={()=> {this.openDetails(rowData)}}
+        onPress={()=> {this.openOfferDetails(rowData)}}
         roundAvatar
         avatar={rowData.img}
 subtitle={
@@ -79,9 +89,24 @@ badge={{ value: rowData.price, badgeTextStyle: { color: rowData.delta == 'down'?
       />
     )
   }
-  increment = () => {
-    this.props.counterStateActions.increment();
-  };
+  renderStockRow (rowData, sectionID) {
+    return (
+      <ListItem
+        key={sectionID}
+        onPress={()=> {this.openStockDetails(rowData)}}
+        roundAvatar
+        avatar={rowData.img}
+subtitle={
+          <View style={styles.subtitleView}>
+            <Text style={styles.ratingText}>{rowData.shares} shares</Text>
+          </View>
+        }
+badge={{ value: rowData.price, badgeTextStyle: { color: rowData.side == 'sell'? 'red': 'green' }, badgeContainerStyle: { marginTop: 10 } }}
+        title={rowData.mnemonic+ ' | ' +rowData.name +' '+ rowData.surname}
+      />
+    )
+  }
+
   renderTestView = () => {
     return (
       <View style={{flex: 1, flexDirection: 'row'}}>
@@ -109,7 +134,7 @@ badge={{ value: rowData.price, badgeTextStyle: { color: rowData.delta == 'down'?
 
 <List containerStyle={{marginBottom: 20}}>
           <ListView
-            renderRow={this.renderOfferRow}
+            renderRow={this.renderStockRow}
             dataSource={this.state.stocksDataSource}
             />
 </List>
@@ -185,11 +210,33 @@ _renderOfferModalContent = (rowData) => (
                   <Text style={{color: 'green'}}>At: R {rowData.price}</Text>
                 </View>
                 <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
-      {this._renderButton('Close', () => this._hideModal())}
+      {this._renderButton('Close', () => this._hideOfferModal())}
                 </View>
     </View>
   );
 
+_renderStockModalContent = (rowData) => (
+        
+    <View style={styles.modalContent}>
+              <Tile
+                 imageSrc={rowData.img}
+                 title={rowData.mnemonic+ '-' + rowData.name + ' '+ rowData.surname}
+                 titleStyle={{fontSize: 22}}
+                 caption={rowData.side}
+                 featured
+                 activeOpacity={1}
+                 width={310}
+              >
+                </Tile>
+                <View style={{flex: 1, flexDirection: 'row', justifyContent: 'center'}}>
+                  <Text style={{color: 'blue'}}>Number of Shares: {rowData.shares}</Text>
+                  <Text style={{color: 'green'}}>At: R {rowData.price}</Text>
+                </View>
+                <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
+      {this._renderButton('Close', () => this._hideOfferModal())}
+                </View>
+    </View>
+  );
   render() {
       var {stocks, offers}  = this.props;
     const loadingStyle = this.props.loading
@@ -210,12 +257,25 @@ _renderOfferModalContent = (rowData) => (
             clearIcon
             placeholder='Search stocks...' />
         </View>
+      <ScrollView keyboardShouldPersistTaps="always" style={styles.mainContainer}>
         <View style={styles.hero}>
           <Icon color='green' name='equalizer' size={62} />
           <Text style={styles.heading}>Your Stocks</Text>
         </View>
-      <ScrollView keyboardShouldPersistTaps="always" style={styles.mainContainer}>
         {this.renderAsyncStocks()}
+<Modal
+          isVisible={this.state.isStockModalVisible}
+          backdropColor={'grey'}
+          backdropOpacity={4}
+          animationIn={'zoomInDown'}
+          animationOut={'zoomOutUp'}
+          animationInTiming={1000}
+          animationOutTiming={1000}
+          backdropTransitionInTiming={1000}
+          backdropTransitionOutTiming={1000}
+        >
+          {this._renderStockModalContent(rowData)}
+        </Modal>
       </ScrollView>
         </View>
         <View style={styles.slide3}>
@@ -226,14 +286,14 @@ _renderOfferModalContent = (rowData) => (
             clearIcon
             placeholder='Search stocks...' />
         </View>
+      <ScrollView keyboardShouldPersistTaps="always" style={styles.mainContainer}>
         <View style={styles.hero}>
           <Icon color='gray' name='whatshot' size={62} />
           <Text style={styles.heading}>Offers</Text>
         </View>
-      <ScrollView keyboardShouldPersistTaps="always" style={styles.mainContainer}>
         {this.renderAsyncOffers()}
 <Modal
-          isVisible={this.state.isModalVisible}
+          isVisible={this.state.isOffersModalVisible}
           backdropColor={'grey'}
           backdropOpacity={4}
           animationIn={'zoomInDown'}
