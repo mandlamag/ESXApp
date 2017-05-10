@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { badge, SearchBar,Avatar,List,ListItem, Tile, Button, Card, Grid, Row, Col}  from 'react-native-elements';
+import { badge,Divider, SearchBar,Avatar,List,ListItem, Tile, Button, Card, Grid, Row, Col}  from 'react-native-elements';
 import PropTypes from 'prop-types';
 import {
   StyleSheet,
@@ -188,6 +188,14 @@ badge={{ value: rowData.price, badgeTextStyle: { color: rowData.side == 'sell'? 
       </View>
     </TouchableOpacity>
   );
+
+ _renderCallToAction = (text, onPress) => (
+    <TouchableOpacity onPress={onPress}>
+      <View style={styles.modalButton}>
+        <Text>{text}</Text>
+      </View>
+    </TouchableOpacity>
+  );
 _renderOfferModalContent = (rowData) => (
         
     <View style={styles.modalContent}>
@@ -201,6 +209,7 @@ _renderOfferModalContent = (rowData) => (
                  width={310}
               >
                 </Tile>
+<Divider style={{ backgroundColor: 'blue' }} />
                 <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
                   <Text style={{color: 'green'}}>Visit</Text>
                   <Text style={{color: 'blue'}}>Find out More</Text>
@@ -233,7 +242,7 @@ _renderStockModalContent = (rowData) => (
                   <Text style={{color: 'green'}}>At: R {rowData.price}</Text>
                 </View>
                 <View style={{flex: 1, flexDirection: 'row', justifyContent: 'space-between'}}>
-      {this._renderButton('Close', () => this._hideOfferModal())}
+      {this._renderButton('Close', () => this._hideStockModal())}
                 </View>
     </View>
   );
@@ -264,7 +273,7 @@ _renderStockModalContent = (rowData) => (
         </View>
         {this.renderAsyncStocks()}
 <Modal
-          isVisible={this.state.isStockModalVisible}
+          isVisible={this.state.isStocksModalVisible}
           backdropColor={'grey'}
           backdropOpacity={4}
           animationIn={'zoomInDown'}
