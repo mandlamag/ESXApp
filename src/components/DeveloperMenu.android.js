@@ -1,5 +1,6 @@
-import React, {Component} from 'react';
+import React from 'react';
 import * as snapshot from '../utils/snapshot';
+import * as auth0 from '../services/auth0';
 
 import {
   View,
@@ -13,27 +14,31 @@ import {
  * It can be accessed through a tiny button in the bottom right corner of the screen.
  * ONLY FOR DEVELOPMENT MODE!
  */
-class DeveloperMenu extends Component {
-  static displayName = 'DeveloperMenu';
+const DeveloperMenu = React.createClass({
+  displayName: 'DeveloperMenu',
 
-  constructor(props) {
-    super(props);
-    this.state = {visible: false};
-  }
-
-  showDeveloperMenu = () => {
+  getInitialState() {
+    return {visible: false};
+  },
+  showDeveloperMenu() {
     this.setState({isVisible: true});
-  };
+  },
 
-  clearState = async () => {
+  async clearState() {
     await snapshot.clearSnapshot();
     console.warn('(╯°□°）╯︵ ┻━┻ \nState cleared, Cmd+R to reload the application now');
     this.closeMenu();
-  };
+  },
 
-  closeMenu = () => {
+  async showLogin() {
+    await auth0.showLogin();
+    console.log('Show auth0 login screen');
+    this.closeMenu();
+  },
+
+  closeMenu() {
     this.setState({isVisible: false});
-  };
+  },
 
   renderMenuItem(text, onPress) {
     return (
@@ -45,7 +50,7 @@ class DeveloperMenu extends Component {
         <Text style={styles.menuItemText}>{text}</Text>
       </TouchableOpacity>
     );
-  }
+  },
 
   render() {
     if (!__DEV__) {
@@ -55,14 +60,15 @@ class DeveloperMenu extends Component {
     if (!this.state.isVisible) {
       return (
         <TouchableOpacity
-          style={styles.circle}
-          onPress={this.showDeveloperMenu}
-          />
+        style={styles.circle}
+        onPress={this.showDeveloperMenu}
+        />
       );
     }
 
     const buttons = [
       this.renderMenuItem('Clear state', this.clearState),
+      this.renderMenuItem('Show login', this.showLogin),
       this.renderMenuItem('Cancel', this.closeMenu)
     ];
 
@@ -72,7 +78,7 @@ class DeveloperMenu extends Component {
       </View>
     );
   }
-}
+});
 
 const styles = StyleSheet.create({
   circle: {

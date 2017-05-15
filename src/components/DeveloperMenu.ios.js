@@ -1,5 +1,6 @@
-import React, {Component} from 'react';
+import React from 'react';
 import * as snapshot from '../utils/snapshot';
+import * as auth0 from '../services/auth0';
 
 import {
   TouchableOpacity,
@@ -12,8 +13,8 @@ import {
  * It can be accessed through a tiny button in the bottom right corner of the screen.
  * ONLY FOR DEVELOPMENT MODE!
  */
-class DeveloperMenu extends Component {
-  static displayName = 'DeveloperMenu';
+const DeveloperMenu = React.createClass({
+  displayName: 'DeveloperMenu',
 
   showDeveloperMenu() {
     const options = {
@@ -27,16 +28,21 @@ class DeveloperMenu extends Component {
         await snapshot.clearSnapshot();
         console.warn('(╯°□°）╯︵ ┻━┻ \nState cleared, Cmd+R to reload the application now');
       }
+      else if (index === options.showLogin) {
+        await auth0.showLogin();
+        console.log('Show auth0 login screen');
+      }
     };
 
     ActionSheetIOS.showActionSheetWithOptions({
       options: [
         'Clear state',
+        'Show login',
         'Cancel'
       ],
       cancelButtonIndex: options.cancel
     }, callback);
-  }
+  },
 
   render() {
     if (!__DEV__) {
@@ -50,7 +56,7 @@ class DeveloperMenu extends Component {
         />
     );
   }
-}
+});
 
 const styles = StyleSheet.create({
   circle: {
