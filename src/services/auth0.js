@@ -12,7 +12,8 @@ let lock = null;
 if (authenticationEnabled) {
   lock = new Auth0Lock({
     clientId,
-    domain
+    domain,
+    useBrowser: true
   });
 } else {
   console.warn('Authentication not enabled: Auth0 configuration not provided');
@@ -27,7 +28,7 @@ export function showLogin() {
     closable: true
   };
 
-  if (Platform.OS === 'ios') {
+/*  if (Platform.OS === 'ios') {
     lock.customizeTheme({
       A0ThemePrimaryButtonNormalColor: '#39babd',
       A0ThemePrimaryButtonHighlightedColor: '#08AFB3',
@@ -42,7 +43,7 @@ export function showLogin() {
       A0ThemeIconImageName: 'pepperoni',
       A0ThemeCredentialBoxBorderColor: '' //transparent
     });
-  }
+  }*/
 
   lock.show(options, (err, profile, token) => {
     if (err) {

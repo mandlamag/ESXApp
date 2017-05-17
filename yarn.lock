@@ -3968,9 +3968,9 @@ react-native-elements@^0.10.3:
     react-native-side-menu "^0.20.1"
     react-native-tab-navigator "^0.3.3"
 
-react-native-lock@futurice/react-native-lock#feature/customizedTheme:
-  version "0.3.0"
-  resolved "https://codeload.github.com/futurice/react-native-lock/tar.gz/4f9188dac88b8fede251bb4e33fdfb1c618accee"
+react-native-lock@^0.6.0:
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/react-native-lock/-/react-native-lock-0.6.0.tgz#2fc40caf74e60b7516b2faeee975271a71696c49"
   dependencies:
     react-native-auth0 "^0.0.1"
 
